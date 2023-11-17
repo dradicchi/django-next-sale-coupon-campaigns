@@ -1,4 +1,4 @@
-# es_mvp_next_order_coupon
+# ES "Next Sale Coupon" Campaigns Platform
 
 A complete Django SaaS app to launching "next sale coupons" campaigns and incentive sales on retail business. This project applies a well-known heuristic from behavioral economics to encourage unexpected sales of products and services.
 
