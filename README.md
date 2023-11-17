@@ -26,7 +26,9 @@ that is applicable and has the highest cashback rate – is considered when  iss
 - Allows standard parameters for launching campaigns and issuing coupons;
 - There is a minimum/maximum sales value range for coupon issuance eligibility;
 - Each issued coupon has a cashback value face, an expiration date and a maximum discount rate;
-- Uses SMS messages to delivery cashback coupons.
+- Uses SMS messages to delivery cashback coupons;
+- Lists sales, campaigns and coupons historics;
+- Shows KPIs to control campaigns performance.
 
 
 ## TECHNICAL ASPECTS
