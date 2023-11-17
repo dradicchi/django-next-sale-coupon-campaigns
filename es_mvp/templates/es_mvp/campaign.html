@@ -1,0 +1,136 @@
+{% extends 'es_mvp/base.html' %}{% load humanize %}{% load mathfilters %}
+
+{% block page_header %}
+  <div class="row">
+    <div class="col"><h1>Campaign details</h1></div>
+    <div class="col">
+      <a href="{% url 'es_mvp:edit_campaign' campaign.id %}" 
+          class="btn btn-success float-end">Configure campaign</a>
+    </div>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+ <!-- Summary container -->
+  <div class="container mb-4 border-bottom">
+    <div class="row">
+      <!-- Card #1 -->
+      <div class="col-lg-2 col-md-6 col-sm-6">
+        <div class="card mb-2 mb-4">
+          <div class="card-header small text-center">
+            Accumulated<br />Bonified Sales
+          </div>
+          <div class="card-body text-center small fw-bold">
+            {{ settings.currency }} 
+            {{ campaign_summary.cumulative_sales|floatformat:"2g" }}
+          </div>
+        </div>
+      </div>
+      <!-- Card #2 -->
+      <div class="col-lg-2 col-md-6 col-sm-6">
+        <div class="card mb-2 mb-4">
+          <div class="card-header small text-center">
+            Accumulated<br />Cashback
+          </div>
+          <div class="card-body text-center small fw-bold">
+              {{ settings.currency }} 
+              {{ campaign_summary.cumulative_cashback|floatformat:"2g" }}
+          </div>
+        </div>
+      </div>
+      <!-- Card #3 -->
+      <div class="col-lg-2 col-md-6 col-sm-6">
+        <div class="card mb-2 mb-4">
+          <div class="card-header small text-center">
+            Performance<br />Redeemed / Issued
+          </div>
+          <div class="card-body text-center small fw-bold">        
+              {% if campaign_summary.conversion_rate %}
+                {{ campaign_summary.conversion_rate|mul:100|floatformat:"2g" }}%
+              {% else %}
+                N/A
+              {% endif %}
+          </div>
+        </div>
+      </div>
+      <!-- Card #4 -->
+      <div class="col-lg-2 col-md-6 col-sm-6">
+        <div class="card mb-2 mb-4">
+          <div class="card-header small text-center">
+            Total<br />Redeemed Coupons
+          </div>
+          <div class="card-body text-center small fw-bold">
+            {{ campaign_summary.redeemed_coupons|stringformat:"02d" }}
+          </div>
+        </div>
+      </div>
+      <!-- Card #5 -->
+      <div class="col-lg-2 col-md-6 col-sm-6">
+        <div class="card mb-2 mb-4">
+          <div class="card-header small text-center">
+            Total<br />Issued Coupons
+          </div>
+          <div class="card-body text-center small fw-bold">
+            {{ campaign_summary.issued_coupons|stringformat:"02d" }}
+          </div>
+        </div>
+      </div>
+      <!-- Card #6 -->
+      <div class="col-lg-2 col-md-6 col-sm-6">
+        <div class="card mb-2 mb-4">
+          <div class="card-header small text-center">
+            Total<br />Expired Coupons
+          </div>
+          <div class="card-body text-center small fw-bold">
+            {{ campaign_summary.expired_coupons|stringformat:"02d" }}
+          </div>
+        </div>
+      </div>
+    </div><!-- End of row -->
+  </div><!-- End of performance container -->
+
+  <div class="container">
+    <!-- Main campaign data -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <div class="row">
+          <span class="col-12 mb-2">Campaign title: <b>{{ campaign.title }}</b></span>
+          <span class="col-12 mb-2">Status: <b>{{ campaign.is_active|yesno:"Ativa,Inativa" }}</b></span>
+          <span class="col-12">Registration date: <b>{{ campaign.date_added }}</b></span>
+        </div>
+      </div>
+    </div>
+    <!-- Eligibility conditions for sales -->
+    <div class="card mb-2">
+      <div class="card-header">
+        Eligibility conditions for this campaign:
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <span class="col-12 mb-2 small">Note: if a sale meets the criteria of more than one campaign, the one with the highest cashback will be chosen.</span>
+          <span class="col-12 mb-2">Sales with minimum value (greater than or equal to): <b>{{ settings.currency }} {{ campaign.min_sale_value|floatformat:"2g" }}</b></span>
+          <span class="col-12">Sales with maximum value (less than or equal to): <b>{{ settings.currency }} {{ campaign.max_sale_value|floatformat:"2g" }}</b></span>
+        </div>
+      </div>
+    </div>
+    <!-- Redemption definitions for coupon issuance -->
+    <div class="card mb-2">
+      <div class="card-header">
+        Definitions for issuing coupons:
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <span class="col-12 mb-2">URL coupon: <b><a href="{{ campaign.url }}">{{ campaign.url }}</a></b></span>
+          <span class="col-12 mb-2">Cashback rate: <b>{{ campaign.bonus_rate }}%</b></span>
+          <span class="col-12 mb-2">Maximum discount rate: <b>{{ campaign.discount_limit_rate }}%</b></span>
+          <span class="col-12">Expiration (in days): <b>Expires {{ campaign.coupon_lifetime|stringformat:"02d" }} days after issuance</b></span>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
+
+
+

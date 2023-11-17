@@ -1,0 +1,77 @@
+{% extends 'es_mvp/base.html' %}{% load humanize %}
+
+{% block page_header %}
+  <div class="row">
+    <div class="col"><h1>Coupon details</h1></div>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+  <div class="container">
+    <!-- Main coupon data -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <div class="row">
+          <span class="col-12 mb-2">Verification code: <b>{{ coupon.identifier }}</b></span>
+          <span class="col-12 mb-2">Issuance date: <b>{{ coupon.date_added }}</b></span>
+          <span class="col-12">Registration date: <b>{{ coupon.expiration_date }}</b></span>
+        </div>
+      </div>
+    </div>
+    <!-- Coupon status -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <span>Status: 
+          {% if coupon.is_redeemed %}
+              <a href="{% url 'es_mvp:sale' bonified_sale.id %}">
+                <b>Redeemed
+                  {% if bonified_sale.identifier %}
+                   (venda cód. {{ bonified_sale.identifier }})
+                  {% endif %}</b></a>
+          {% elif coupon.is_expired %}
+            <b>Expired</b>
+          {% elif coupon.is_valid %}
+            <b>Active</b>
+          {% else %}
+            <b>Inactive</b>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+    <!-- Coupon value -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <div class="row">
+          <span class="col-12 mb-2">Cashback: <b>{{ settings.currency }} {{ coupon.discount_value|floatformat:"2g" }}</b></span>
+          <span class="col-12">Max discount: <b>{{ coupon.discount_limit_rate }}%</b></span>
+        </div>
+      </div>
+    </div>
+    <!-- Owner's (Customer) data -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <span>Cellphone customer: <b>{{ coupon.customer.cellphone }}</b></span>
+      </div>
+    </div>
+    <!-- Origination sale -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <span>
+          Sale that originated the coupon:
+          <a href="{% url 'es_mvp:sale' origination_sale.id %}">See
+          {% if origination_sale.identifier %}
+             (sale ID {{ origination_sale.identifier }})
+          {% endif %}</a>
+        </span>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
+
+
+
+
+
+

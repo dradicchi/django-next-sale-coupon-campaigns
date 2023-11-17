@@ -1,0 +1,65 @@
+{% extends 'es_mvp/base.html' %}{% load humanize %}{% load mathfilters %}
+
+{% block content %}
+
+    <h2>Register new sale</h2>
+
+    <form action="{% url 'es_mvp:new_sale' %}" method='post'>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{ form.customer_country_code.errors }}
+            {{ form.customer_country_code.label_tag }}
+            {{ form.customer_country_code }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.customer_long_distance_code.errors }}
+            {{ form.customer_long_distance_code.label_tag }}
+            {{ form.customer_long_distance_code }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.customer_cellphone_number.errors }}
+            {{ form.customer_cellphone_number.label_tag }}
+            {{ form.customer_cellphone_number }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.pos_initial_value.errors }}
+            {{ form.pos_initial_value.label_tag }}
+            {{ form.pos_initial_value }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.date.errors }}
+            {{ form.date.label_tag }}
+            {{ form.date }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.redeemed_coupon_identifier.errors }}
+            {{ form.redeemed_coupon_identifier.label_tag }}
+            {{ form.redeemed_coupon_identifier }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.discount_value.errors }}
+            {{ form.discount_value.label_tag }}
+            {{ form.discount_value }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.final_value.errors }}
+            {{ form.final_value.label_tag }}
+            {{ form.final_value }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.pos_identifier.errors }}
+            {{ form.pos_identifier.label_tag }}
+            {{ form.pos_identifier }}
+        </div>
+        <button name="submit">Register new sale</button>
+        <a href="{% url 'es_mvp:new_sale' %}">Clear form</a>
+        <a href="{% url 'es_mvp:sales' %}">Cancel</a>
+    </form>
+
+{% endblock content %}
+
+
+
+
+

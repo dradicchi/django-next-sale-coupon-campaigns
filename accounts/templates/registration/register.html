@@ -1,0 +1,29 @@
+{% extends 'registration/base.html' %}
+{% load humanize %}
+{% load django_bootstrap5 %}
+
+
+  {% block page_header %}
+    <div class="row justify-content-center">
+      <div class="col-6"><h1 id="logo">ES MVP</h1></div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-6 pb-2 border-bottom"><h5>Register new user</h5></div>
+    </div>
+  {% endblock page_header %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <p class="text-center">After creating a user account, contact support to activate it.</p>
+      <form action="{% url 'accounts:register' %}" method='post'>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button button_type="submit" content="Register new user" %}
+        <span id="secondary-controls">
+          <a href="{% url 'es_mvp:home' %}">Cancel</a>
+        </span>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

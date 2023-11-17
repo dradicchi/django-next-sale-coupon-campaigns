@@ -1,0 +1,48 @@
+{% load humanize %}
+<!doctype html>
+<html lang="pt-BR" class="h-100">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ES - MVP</title>
+
+  {% load static %}
+
+  <!-- Django Bootstrap Tags -->
+  {% load django_bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" type="text/css"  href="{% static 'registration/css/style.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" type='text/css'>
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'registration/img/apple-touch-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'registration/img/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'registration/img/favicon-16x16.png' %}">
+  <link rel="manifest" href="{% static 'registration/img/site.webmanifest' %}">
+  <link rel="mask-icon" href="{% static 'registration/img/safari-pinned-tab.svg' %}" color="#cc4125">
+  <link rel="shortcut icon" href="{% static 'registration/img/favicon.ico' %}">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="registration/img/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+
+</head>
+<body class="d-flex flex-column h-100">
+
+  <div id="wrapper">
+    <main class="container">
+      <div id="content-header" class="">
+        {% block page_header %}{% endblock page_header %}
+      </div id="content">{% block content %}{% endblock content %}</div>
+    </main><!-- End of main -->
+  </div><!-- End of wrapper -->
+  
+  <footer class="footer py-1 bg-body-tertiary mt-auto bg-light border">
+    <div class="container">
+      <span>Copyright github.com/dradicchi</span>
+    </div>
+  </footer><!-- End of footer -->
+</body>
+</html>

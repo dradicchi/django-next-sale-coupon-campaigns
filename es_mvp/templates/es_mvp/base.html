@@ -1,0 +1,147 @@
+{% load humanize %}
+<!doctype html>
+<html lang="pt-BR" class="h-100">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ES - MVP</title>
+
+  {% load static %}
+
+  <!-- Django Bootstrap Tags -->
+  {% load django_bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" type="text/css"  href="{% static 'es_mvp/css/style.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'es_mvp/img/apple-touch-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'es_mvp/img/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'es_mvp/img/favicon-16x16.png' %}">
+  <link rel="manifest" href="{% static 'es_mvp/img/site.webmanifest' %}">
+  <link rel="mask-icon" href="{% static 'es_mvp/img/safari-pinned-tab.svg' %}" color="#cc4125">
+  <link rel="shortcut icon" href="{% static 'es_mvp/img/favicon.ico' %}">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="es_mvp/img/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+
+</head>
+<body class="d-flex flex-column h-100">
+
+  <!-- Navigation -->
+  <nav id="menu" class="navbar fixed-top navbar-expand-md navbar-light bg-light mb-4 border">
+    <div class="container-fluid">
+      <!-- Brand -->
+      <a class="navbar-brand" href="{% url 'es_mvp:home' %}">ES Next Sale Coupons</a>
+
+      <!-- A "hamburguer" menu to navigantion in small screens -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      {% if user.is_authenticated %}
+
+      <!-- Authenticated main menu -->
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="btn btn-light" href="{% url 'es_mvp:home' %}">
+              Home</a></li>
+          <li class="nav-item">
+            <a class="btn btn-light" href="{% url 'es_mvp:new_sale' %}">
+              Register new sale</a></li>
+          <li class="nav-item dropdown">
+            <a class="btn btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="{% url 'es_mvp:sales' %}">
+              List</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'es_mvp:sales' %}">
+                Sales</a></li>
+              <li><a class="dropdown-item" href="{% url 'es_mvp:campaigns' %}">
+                Campaigns</a></li>
+              <li><a class="dropdown-item" href="{% url 'es_mvp:coupons' %}">
+                Coupons</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="btn btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="{% url 'es_mvp:sales' %}">
+              Settings</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'es_mvp:new_campaign' %}">
+                New campaign</a></li>
+              <li><a class="dropdown-item" href="{% url 'es_mvp:edit_store_settings' %}">
+                Store settings</a></li>
+            </ul>
+          </li>
+        </ul><!-- End of authenticated main menu -->
+
+        <!-- Authenticated account-related links -->
+        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+          <li class="nav-item">
+              <span class="navbar-text me-2">User: {{ user.username }}
+                </span></li>
+        </ul>
+        <form class="d-flex" action="{% url 'accounts:logout' %}" method='post'>
+          {% csrf_token %}
+          <button class="btn btn-light" name='submit'>Log-off</button>
+        </form><!-- End of authenticated account-related links -->
+      </div><!-- Closes collapsible parts of navbar -->
+
+      {% else %}
+
+      <!-- Not authenticated main menu -->
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'es_mvp:home' %}">
+              Home</a></li>
+        </ul><!-- End of not authenticated main menu -->
+
+        <!-- Not authenticated account-related links -->
+        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+          <li class="nav-item">
+              <a class="btn btn-light" href="{% url 'accounts:login' %}">
+                  Login</a></li>
+        </ul><!-- End of not authenticated account-related links -->
+      </div><!-- Closes collapsible parts of navbar -->
+
+      {% endif %}
+
+    </div><!-- Closes navbar's container -->
+  </nav><!-- End of navigation -->
+
+  <div id="wrapper">
+
+    {% if messages %}
+    <div id="warnings" class="messages">
+      <div class="container">
+        {% for message in messages %}
+        <div {% if message.tags %} class="{{ message.tags }}"{% endif %} role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+      </div>
+    </div><!-- End of alerts -->
+    {% endif %}
+
+    <main class="container">
+      <div id="content-header" class="pb-2 border-bottom">
+        {% block page_header %}{% endblock page_header %}
+      </div>
+      <div id="content">{% block content %}{% endblock content %}</div>
+    </main><!-- End of main -->
+
+  </div><!-- End of wrapper -->
+  
+  <footer class="footer py-1 bg-body-tertiary mt-auto bg-light border">
+    <div class="container">
+      <span>Copyright github.com/dradicchi</span>
+    </div>
+  </footer><!-- End of footer -->
+</body>
+</html>

@@ -1,0 +1,100 @@
+{% extends 'es_mvp/base.html' %}{% load humanize %}{% load mathfilters %}
+
+{% block page_header %}
+  {% if user.is_authenticated %}
+    <div class="row">
+      <div class="col"><h1>Control Panel</h1></div>
+    </div>
+  {% else %}
+    <div class="p-3 mb-4 bg-light border rounded-3">
+      <div class="container-fluid py-4 text-center">
+        <h1 class="display-5">Increase your sales!</h1>
+        <p class="lead">Launch more effective incentive campaigns and reward your
+          frequent customers with cashback.</p>
+        <a class="btn btn-primary btn-lg mt-1" 
+            href="{% url 'accounts:login' %}">Login &raquo;</a>
+      </div>
+    </div>
+  {% endif %}
+{% endblock page_header %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <!-- Summary container -->
+    <div class="container mb-4 border-bottom">
+      <div class="row">
+        <!-- Card #1 -->
+        <div class="col-lg-2 col-md-6 col-sm-6">
+          <div class="card mb-2 mb-4">
+            <div class="card-header small text-center">
+             Accumulated<br />Bonified Sales
+            </div>
+            <div class="card-body text-center small fw-bold">
+              {{ settings.currency }} {{ store_summary.cumulative_sales|floatformat:"2g" }}
+            </div>
+          </div>
+        </div>
+        <!-- Card #2 -->
+        <div class="col-lg-2 col-md-6 col-sm-6">
+          <div class="card mb-2 mb-4">
+            <div class="card-header small text-center">
+              Accumulated <br />Cashback
+            </div>
+            <div class="card-body text-center small fw-bold">
+                {{ settings.currency }} {{ store_summary.cumulative_cashback|floatformat:"2g" }}
+            </div>
+          </div>
+        </div>
+        <!-- Card #3 -->
+        <div class="col-lg-2 col-md-6 col-sm-6">
+          <div class="card mb-2 mb-4">
+            <div class="card-header small text-center">
+              Performance<br />Redeemed / Issued
+            </div>
+            <div class="card-body text-center small fw-bold">        
+                {% if store_summary.conversion_rate %}
+                  {{ store_summary.conversion_rate|mul:100|floatformat:"2g" }}%
+                {% else %}
+                  N/A
+                {% endif %}
+            </div>
+          </div>
+        </div>
+        <!-- Card #4 -->
+        <div class="col-lg-2 col-md-6 col-sm-6">
+          <div class="card mb-2 mb-4">
+            <div class="card-header small text-center">
+              Total<br />Redeemed Coupons
+            </div>
+            <div class="card-body text-center small fw-bold">
+              {{ store_summary.redeemed_coupons|stringformat:"02d" }}
+            </div>
+          </div>
+        </div>
+        <!-- Card #5 -->
+        <div class="col-lg-2 col-md-6 col-sm-6">
+          <div class="card mb-2 mb-4">
+            <div class="card-header small text-center">
+              Total<br />Issued Coupons
+            </div>
+            <div class="card-body text-center small fw-bold">
+              {{ store_summary.issued_coupons|stringformat:"02d" }}
+            </div>
+          </div>
+        </div>
+        <!-- Card #6 -->
+        <div class="col-lg-2 col-md-6 col-sm-6">
+          <div class="card mb-2 mb-4">
+            <div class="card-header small text-center">
+              Total<br />Expired Coupons
+            </div>
+            <div class="card-body text-center small fw-bold">
+              {{ store_summary.expired_coupons|stringformat:"02d" }}
+            </div>
+          </div>
+        </div>
+      </div><!-- End of row -->
+    </div><!-- End of performance container -->
+  {% endif %}
+{% endblock content %}
+

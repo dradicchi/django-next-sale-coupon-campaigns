@@ -1,0 +1,75 @@
+{% extends 'es_mvp/base.html' %}{% load humanize %}
+
+{% block page_header %}
+  <div class="row">
+    <div class="col"><h1>Registred Sales</h1></div>
+    <div class="col">
+      <a href="{% url 'es_mvp:new_sale' %}" class="btn btn-success float-end">Register Sale</a>
+    </div>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+  <!-- Top pagination-->
+  <div class="pagination justify-content-end">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; First page</a>
+          <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+
+  <table class="table table-sm table-hover ">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Sale date</th>
+        <th scope="col">Sale ID</th>
+        <th scope="col">Value</th>
+        <th scope="col">Cellphone customer</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sale in page_obj %}
+        <tr>
+          <td scope="row"><a href="{% url 'es_mvp:sale' sale.id %}">
+            {{ sale.date|date:"Y M d" }}</a></td>
+          <td><a href="{% url 'es_mvp:sale' sale.id %}">
+            {{ sale.identifier }}</a></td>
+          <td><a href="{% url 'es_mvp:sale' sale.id %}">
+            {{ settings.currency }} {{ sale.final_value|floatformat:"2g" }}</a></td>
+          <td><a href="{% url 'es_mvp:sale' sale.id %}">
+            {{ sale.customer.cellphone }}</a></td>                        
+        </tr>
+      {% empty %}
+            <tr><td scope="row" colspan="4" class="empty-table text-center pb-4 pt-4">No sales have yet been recorded.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Bottom pagination-->
+  <div class="pagination justify-content-end">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; First page</a>
+          <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+{% endblock content %}
+
+ 

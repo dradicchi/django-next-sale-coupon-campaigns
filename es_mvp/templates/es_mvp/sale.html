@@ -1,0 +1,80 @@
+{% extends 'es_mvp/base.html' %}{% load humanize %}
+
+{% block page_header %}
+  <div class="row">
+    <div class="col"><h1>Seale details</h1></div>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+  <div class="container">
+    <!-- Main sale data -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <div class="row">
+          <span class="col-12 mb-2">Sale ID: <b>{{ sale.identifier }}</b></span>
+          <span class="col-12 mb-2">Sale date: <b>{{ sale.date }}</b></span>
+          <span class="col-12">Registration date: <b>{{ sale.date_added }}</b></span>
+        </div>
+      </div>
+    </div>
+    <!-- Owner's (Customer) data -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <span>Cellphone customer: <b>{{ sale.customer.cellphone }}</b></span>
+      </div>
+    </div>
+    <!-- Sale initial value -->
+    <div class="card mb-2">
+      <div class="card-body">
+          <span>Initial sale value: <b>{{ settings.currency }} {{ sale.initial_value|floatformat:"2g" }}</b></span>
+      </div>
+    </div>
+    <!-- Redeemed coupon -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <div class="row">
+          <span class="col-12 mb-2">ID redeemed coupon: 
+            <b>{% if sale.redeemed_coupon %} 
+              <a href="{% url 'es_mvp:coupon' sale.redeemed_coupon.id %}">
+                {{ sale.redeemed_coupon.identifier }}</a>
+              {% else %}
+                No coupon was applied to this sale.
+              {% endif %}</b></span>
+          <span class="col-12">Cashback discount: <b>{{ settings.currency }} {{ sale.effective_discount|floatformat:"2g" }}</b></span>
+        </div>
+      </div>
+    </div>
+    <!-- Sale final value -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <div class="row">
+          <span class="col-12 h4 mt-2"><b>Final value: {{ settings.currency }} {{ sale.final_value|floatformat:"2g" }}</b></span>
+        </div>
+      </div>
+    </div>
+    <!-- Issued coupon -->
+    <div class="card mb-2">
+      <div class="card-body">
+        <span>
+          {% if issued_coupon %}
+            <h5 class="mt-1">This sale was bonified with a new coupon:
+              <a href="{% url 'es_mvp:coupon' issued_coupon.id %}">
+                See coupon {{ issued_coupon.identifier }} - 
+                {{ settings.currency }} 
+                {{ issued_coupon.discount_value|floatformat:"2g" }}</a></h5>
+          {% else %}
+            This sale did not generate a bonus.
+          {% endif %}
+        </span>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
+
+
+
+
+

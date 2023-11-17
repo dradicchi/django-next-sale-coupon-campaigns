@@ -1,0 +1,79 @@
+{% extends 'es_mvp/base.html' %}{% load humanize %}
+
+{% block page_header %}
+  <div class="row">
+    <div class="col"><h1>Campaigns</h1></div>
+    <div class="col">
+      <a href="{% url 'es_mvp:new_campaign' %}" class="btn btn-success float-end">New Campaign</a>
+    </div>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+  <!-- Top pagination-->
+  <div class="pagination justify-content-end">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; First page</a>
+          <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+
+  <table class="table table-sm table-hover ">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Cashback rate</th>
+        <th scope="col">Coupon expiration</th>
+        <th scope="col">Min sale value</th>
+        <th scope="col">Max sale value</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for campaign in page_obj %}
+        <tr>
+          <td scope="row"><a href="{% url 'es_mvp:campaign' campaign.id %}">
+            {{ campaign.title|truncatechars:25 }}</a></td>
+          <td>{{ campaign.bonus_rate }}%</td>
+          <td>{{ campaign.coupon_lifetime|stringformat:"02d" }} days</a></td>
+          <td>{{ settings.currency }} {{ campaign.min_sale_value|floatformat:"2g" }}</td>
+          <td>{{ settings.currency }} {{ campaign.max_sale_value|floatformat:"2g" }}</td>
+          <td>{{ campaign.is_active|yesno:"Active,Inactive" }}</td>
+          <td><a href="{% url 'es_mvp:edit_campaign' campaign.id %}">
+                        Edit</a></td>                         
+        </tr>
+      {% empty %}
+            <tr><td scope="row" colspan="6" class="empty-table text-center pb-4 pt-4">No campaigns have been created yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Bottom pagination-->
+  <div class="pagination justify-content-end">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; First page</a>
+          <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+{% endblock content %}
+
+ 

@@ -1,0 +1,26 @@
+{% extends 'es_mvp/base.html' %}
+{% load humanize %}
+{% load django_bootstrap5 %}
+
+{% block page_header %}
+  <div class="row">
+    <div class="col"><h1>New Campaign</h1></div>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+  <form action="{% url 'es_mvp:new_campaign' %}" method='post'>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="New Campaign" %}
+    <span id="secondary-controls">
+      <a href="{% url 'es_mvp:new_campaign' %}">Reset form</a>
+      <a href="{% url 'es_mvp:campaigns' %}">Cancel</a>
+    </span>
+  </form>
+{% endblock content %}
+
+
+
+
+

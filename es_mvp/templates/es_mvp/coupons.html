@@ -1,0 +1,87 @@
+{% extends 'es_mvp/base.html' %}{% load humanize %}
+
+{% block page_header %}
+  <div class="row">
+    <div class="col"><h1>Cupons</h1></div>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+
+  <!-- Top pagination-->
+  <div class="pagination justify-content-end">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; First page</a>
+          <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+
+  <table class="table table-sm table-hover ">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Issuance</th>
+        <th scope="col">Expiration</th>
+        <th scope="col">Coupon ID</th>
+        <th scope="col">Cashback</th>
+        <th scope="col">Discount limit</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for coupon in page_obj %}
+        <tr>
+          <td scope="row"><a href="{% url 'es_mvp:coupon' coupon.id %}">
+            {{ coupon.date_added|date:"Y M d" }}</a></td>
+          <td><a href="{% url 'es_mvp:coupon' coupon.id %}">
+            {{ coupon.expiration_date|date:"Y M d" }}</a></td>
+          <td><a href="{% url 'es_mvp:coupon' coupon.id %}">
+            {{ coupon.identifier }}</a></td>
+          <td><a href="{% url 'es_mvp:coupon' coupon.id %}">
+            {{ settings.currency }} {{ coupon.discount_value|floatformat:"2g" }}</a></td>
+          <td><a href="{% url 'es_mvp:coupon' coupon.id %}">
+            {{ coupon.discount_limit_rate }}%</a></td>
+          <td><a href="{% url 'es_mvp:coupon' coupon.id %}">
+            {% if coupon.is_redeemed %}
+                Redeemed
+            {% elif coupon.is_expired %}
+                Expired
+            {% elif coupon.is_valid %}
+                Active
+            {% else %}
+                Inactive
+            {% endif %}</a></td>                     
+        </tr>
+      {% empty %}
+            <tr><td scope="row" colspan="6" class="empty-table text-center pb-4 pt-4">No coupon has been issued yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Bottom pagination-->
+  <div class="pagination justify-content-end">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; First page</a>
+          <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+{% endblock content %}
+
+ 

@@ -1,0 +1,92 @@
+{% extends 'es_mvp/base.html' %}
+{% load humanize %}
+{% load django_bootstrap5 %}
+{% load widget_tweaks %}
+{% load mathfilters %}
+
+{% block page_header %}
+  <div class="row">
+    <div class="col"><h1>Register new sale</h1></div>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+  <form action="{% url 'es_mvp:new_sale' %}" method='post'>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="mb-3">
+      {{ form.customer_country_code.errors }}
+      {{ form.customer_country_code.label_tag }}
+      {{ form.customer_country_code|add_class:"form-control" }}
+    </div>
+    <div class="mb-3">
+      {{ form.customer_long_distance_code.errors }}
+      {{ form.customer_long_distance_code.label_tag }}
+      {{ form.customer_long_distance_code|add_class:"form-control" }}
+    </div>
+    <div class="mb-3">
+      {{ form.customer_cellphone.errors }}
+      {{ form.customer_cellphone.label_tag }}
+      {{ form.customer_cellphone|add_class:"form-control" }}
+    </div>
+    <div class="mb-3">
+      {{ form.initial_value.errors }}
+      {{ form.initial_value.label_tag }}
+      {{ form.initial_value|add_class:"form-control" }}
+    </div>
+    <div class="mb-3">
+      {{ form.date.errors }}
+      {{ form.date.label_tag }}
+      {{ form.date|add_class:"form-control" }}
+    </div>
+
+    {{ form.ns_control_flag.as_hidden}}
+
+    {% if validation_code %}
+      <div id="customer-validation-card" class="container mb-4 mt-4 pb-4 pt-4 ps-4 pe-4">
+        <h3>{{ form.customer_verified.label_tag  }}</h3>
+        <span class="customer-validation-instruction"><p>
+          Ask the customer to read the 4-letter and number code received via SMS.<br />
+          If the customer does not receive the SMS within 3 minutes, try resending it again.
+        </p></span> 
+        <span> {{ form.customer_verified }}  Check if the customer received the correct code: <b>{{ validation_code }}</b></span>      
+      </div>
+    {% elif applicable_coupons %}
+      <div id="coupon-redemption-card" class="container mb-4 mt-4 pb-4 pt-4 ps-4 pe-4">
+        <h3>{{ form.redeemed_coupon.label_tag  }}</h3>
+        {{ form.redeemed_coupon|add_class:"coupon-select" }}
+      </div>
+    {% elif not_applicable_coupons %}
+      <div id="coupon-redemption-card" class="container mb-4 mt-4 pb-3 pt-4 ps-4 pe-4">
+        <h5>Customer does not have applicable coupons.</h5>
+      </div> 
+    {% endif %}
+
+    {% if form.ns_control_flag.value %}
+      <div class="mb-3">
+        {{ form.identifier.errors }}
+        {{ form.identifier.label_tag }}
+        {{ form.identifier|add_class:"form-control" }}
+      </div>
+    {% endif %}
+
+    {% if validation_code %}
+      <button class="btn btn-primary" type="submit">Validate customer</button>
+      <button class="btn btn-primary" type="submit">Resend SMS</button> 
+    {% elif form.ns_control_flag.value %}
+      <button class="btn btn-primary" type="submit">Register new sale</button> 
+    {% else %}
+      <button class="btn btn-primary" type="submit">Check for valid coupons</button> 
+    {% endif %}
+    <span id="secondary-controls">
+      <a href="{% url 'es_mvp:new_sale' %}">Reset form</a>
+      <a href="{% url 'es_mvp:sales' %}">Cancel</a>
+    </span>
+  </form>
+
+{% endblock content %}
+
+
+
+
+
