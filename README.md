@@ -38,3 +38,6 @@ that is applicable and has the highest cashback rate – is considered when  iss
 - SMS sending is supported by AWS SNS;
 - The Django project configuration file has been preconfigured to support deployment to Platform.sh.
 
+## Copyright
+
+2023 dradicchi at gmail.com
