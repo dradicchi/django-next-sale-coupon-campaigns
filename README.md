@@ -1,8 +1,7 @@
-# ES Django/Python "Next Sale Coupon" Campaigns Platform
+# ElasticSale Django/Python "Next Sale Coupon" Campaigns App
 
 A complete Django SaaS app to launching "next sale coupons" campaigns and incentive sales on retail business. This project applies a well-known heuristic from behavioral economics to encourage unexpected sales of products and services.
 
-Note: This package is the first MVP deprecated (but completely functional) version of my Micro-SaaS business: ElasticSale.com
 
 ## CONTEXT
 
@@ -38,6 +37,6 @@ that is applicable and has the highest cashback rate – is considered when  iss
 - SMS sending is supported by AWS SNS;
 - The Django project configuration file has been preconfigured to support deployment to Platform.sh.
 
-## Copyright
+## LICENSE
 
-2023 dradicchi at gmail.com
+ElasticSale MVP is distributed with MIT License.
